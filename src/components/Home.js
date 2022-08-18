@@ -152,7 +152,7 @@ export default function Home() {
                     <span className="px-3 py-0.5 text-white text-sm font-semibold leading-5 bg-[#0f865a] rounded-full">
                       Hi there
                     </span>
-                    <span className="ml-4 text-sm">Welcome to Easy life</span>
+                    <span className="ml-4 text-sm">Welcome to Help.com</span>
                     <ChevronRightIcon
                       className="ml-2 w-5 h-5 text-gray-500"
                       aria-hidden="true"
