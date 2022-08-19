@@ -6,10 +6,10 @@ import FAQ from "./FAQ";
 import Support from "./Support";
 
 const navigation = [
-  { name: "Home", href: "#" },
-  { name: "FAQ", href: "#" },
-  { name: "Support", href: "#" },
-  { name: "Partners", href: "#" },
+  { name: "Home", href: "#", id: "#" },
+  { name: "FAQ", href: "#", id: "#faq" },
+  { name: "Support", href: "#", id: "#support" },
+  { name: "Partners", href: "#", id: "partners" },
 ];
 
 export default function Home() {
@@ -76,6 +76,7 @@ export default function Home() {
                       key={item.name}
                       href={item.href}
                       className="font-medium text-white hover:text-gray-300"
+                      id={item.id}
                     >
                       {item.name}
                     </a>
@@ -126,6 +127,7 @@ export default function Home() {
                       <a
                         key={item.name}
                         href={item.href}
+                        id={item.id}
                         className="block px-3 py-2 rounded-md text-base font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
                       >
                         {item.name}

@@ -37,7 +37,7 @@ function classNames(...classes) {
 
 export default function FAQ() {
   return (
-    <div className="bg-white">
+    <div className="bg-white" id="#faq">
       <div className="max-w-7xl mx-auto py-12 px-4 sm:py-16 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto divide-y-2 divide-gray-200">
           <h2 className="text-center text-3xl tracking-tight font-bold text-gray-900 sm:text-4xl sm:tracking-tight">
