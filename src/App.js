@@ -10,6 +10,8 @@ import {
 import routes from "./routes";
 import PaymentError from "./components/PaymentError";
 
+// GlobalGiving Api key: c857816a-f007-41db-a93b-c8cf53b7622c
+
 function App() {
   return (
     <Router>

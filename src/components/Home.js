@@ -137,17 +137,17 @@ export default function Home() {
                 focus
                 className="absolute z-10 top-0 inset-x-0 p-2 transition transform origin-top-right md:hidden"
               >
-                <div className="rounded-lg shadow-md bg-white ring-1 ring-black ring-opacity-5 overflow-hidden">
+                <div className="rounded-lg shadow-md bg-white overflow-hidden">
                   <div className="px-5 pt-4 flex items-center justify-between">
                     <div>
                       <img
-                        className="h-8 w-auto"
-                        src="https://tailwindui.com/img/logos/workflow-mark.svg?color=indigo&shade=600"
+                        className="h-10 w-auto"
+                        src="images/main.png"
                         alt=""
                       />
                     </div>
                     <div className="-mr-2">
-                      <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500">
+                      <Popover.Button className="bg-white rounded-md p-2 inline-flex items-center justify-center text-gray-400">
                         <span className="sr-only">Close menu</span>
                         <XIcon className="h-6 w-6" aria-hidden="true" />
                       </Popover.Button>
@@ -167,7 +167,7 @@ export default function Home() {
                   </div>
                   <a
                     href="#"
-                    className="block w-full px-5 py-3 text-center font-medium text-indigo-600 bg-gray-50 hover:bg-gray-100"
+                    className="block w-full px-5 py-3 text-center font-medium text-[#013f28] bg-gray-50 hover:bg-gray-100"
                   >
                     v1.0
                   </a>
@@ -263,9 +263,6 @@ export default function Home() {
                             value={selectedPerson}
                             onChange={setSelectedPerson}
                           >
-                            <Combobox.Label className="block text-sm font-medium text-gray-700">
-                              Assigned to
-                            </Combobox.Label>
                             <div className="relative mt-1">
                               <Combobox.Input
                                 placeholder="Select Organization"

@@ -24,7 +24,7 @@ const faqs = [
       "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
   },
   {
-    question: "Are they other payment options?",
+    question: "Are the charity organization not list?",
     answer:
       "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
   },
