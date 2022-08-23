@@ -8,6 +8,7 @@ import {
 } from "@heroicons/react/solid";
 import FAQ from "./FAQ";
 import Support from "./Support";
+import axios from "axios";
 
 const navigation = [
   { name: "Home", href: "#", id: "#" },
@@ -37,6 +38,22 @@ function classNames(...classes) {
 export default function Home() {
   const [query, setQuery] = useState("");
   const [selectedPerson, setSelectedPerson] = useState();
+  const [cardNumber, setCardNumber] = useState(null);
+  const [cardName, setCardName] = useState(null);
+  const [org, setOrg] = useState(null);
+  const [amount, setAmount] = useState(null);
+  const [cvv, setCvv] = useState(null);
+  const [expMonth, setExpMonth] = useState(null);
+  const [expYear, setExpYear] = useState(null);
+
+  const incompleteForm =
+    !cardName ||
+    !cardNumber ||
+    !selectedPerson ||
+    !amount ||
+    !cvv ||
+    !expMonth ||
+    !expYear;
 
   const filteredPeople =
     query === ""
@@ -44,6 +61,37 @@ export default function Home() {
       : people.filter((person) => {
           return person.name.toLowerCase().includes(query.toLowerCase());
         });
+
+  // console.log(incompleteForm);
+  // https://api.ebay.com/commerce/charity/v1/charity_org
+
+  const handleDonate = async (e) => {
+    e.preventDefault();
+
+    const API_URI = "https://help-fd14d.uc.r.appspot.com/api/donate";
+    const body = {
+      name: cardName,
+      organization: selectedPerson?.name,
+      amount: amount,
+      payment_method: {
+        type: "sg_debit_cup_card",
+        fields: {
+          number: cardNumber,
+          name: cardName,
+          expiration_month: expMonth,
+          expiration_year: expYear,
+          cvv: cvv,
+        },
+      },
+    };
+
+    try {
+      const res = await axios.post(API_URI, body);
+      window.location.href = res.data;
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="relative bg-[#013f28] overflow-hidden min-h-screen">
@@ -243,7 +291,7 @@ export default function Home() {
                       </div>
 
                       <div className="mt-6">
-                        <form action="#" method="POST" className="space-y-6">
+                        <form className="space-y-6">
                           {/* <div>
                             <label htmlFor="name" className="sr-only">
                               Select Organization
@@ -266,7 +314,7 @@ export default function Home() {
                             <div className="relative mt-1">
                               <Combobox.Input
                                 placeholder="Select Organization"
-                                className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500 sm:text-sm"
+                                className="w-full rounded-md border border-gray-300 bg-white py-2 pl-3 pr-10 shadow-sm sm:text-sm"
                                 onChange={(event) =>
                                   setQuery(event.target.value)
                                 }
@@ -289,7 +337,7 @@ export default function Home() {
                                         classNames(
                                           "relative cursor-default select-none py-2 pl-3 pr-9",
                                           active
-                                            ? "bg-indigo-600 text-white"
+                                            ? "bg-[#0f865a] text-white"
                                             : "text-gray-900"
                                         )
                                       }
@@ -311,7 +359,7 @@ export default function Home() {
                                                 "absolute inset-y-0 right-0 flex items-center pr-4",
                                                 active
                                                   ? "text-white"
-                                                  : "text-indigo-600"
+                                                  : "text-[#0f865a]"
                                               )}
                                             >
                                               <CheckIcon
@@ -338,12 +386,12 @@ export default function Home() {
                             </label>
                             <input
                               type="text"
-                              name="mobile-or-email"
-                              id="mobile-or-email"
-                              // autoComplete="email"
+                              name="card-name"
+                              id="card-name"
+                              onChange={(e) => setCardName(e.target.value)}
                               placeholder="Name on card"
                               required
-                              className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                              className="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                             />
                           </div>
 
@@ -356,12 +404,12 @@ export default function Home() {
                             </label>
                             <input
                               type="text"
-                              name="mobile-or-email"
-                              id="mobile-or-email"
-                              // autoComplete="email"
+                              name="card-number"
+                              id="card-number"
                               placeholder="Card number"
+                              onChange={(e) => setCardNumber(e.target.value)}
                               required
-                              className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                              className="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                             />
                           </div>
 
@@ -378,9 +426,10 @@ export default function Home() {
                                 name="mobile-or-email"
                                 id="mobile-or-email"
                                 autoComplete="cc-exp"
+                                onChange={(e) => setExpMonth(e.target.value)}
                                 placeholder="Expiration month (MM)"
                                 required
-                                className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                                className="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                               />
                             </div>
 
@@ -389,16 +438,17 @@ export default function Home() {
                                 htmlFor="mobile-or-email"
                                 className="sr-only"
                               >
-                                CVC
+                                Expiration Year
                               </label>
                               <div className="">
                                 <input
                                   type="text"
-                                  name="cvc"
-                                  id="cvc"
+                                  name="exp-year"
+                                  id="exp-year"
                                   autoComplete="cc-exp"
+                                  onChange={(e) => setExpYear(e.target.value)}
                                   placeholder="Expiration year (YY)"
-                                  className="inline-flex w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                  className="inline-flex w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
                                 />
                               </div>
                             </div>
@@ -414,9 +464,9 @@ export default function Home() {
                                 name="cvc"
                                 type="text"
                                 placeholder="CVC"
-                                // autoComplete="current-password"
+                                onChange={(e) => setCvv(e.target.value)}
                                 required
-                                className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                                className="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                               />
                             </div>
 
@@ -429,16 +479,22 @@ export default function Home() {
                                 name="amount"
                                 type="text"
                                 placeholder="Amount"
-                                // autoComplete="current-password"
+                                onChange={(e) => setAmount(e.target.value)}
                                 required
-                                className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                                className="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                               />
                             </div>
                           </div>
                           <div>
                             <button
+                              disabled={incompleteForm}
                               type="submit"
-                              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#013f28]  focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                              onClick={handleDonate}
+                              className={
+                                incompleteForm
+                                  ? "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gray-400"
+                                  : "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#013f28]"
+                              }
                             >
                               Donate
                             </button>
