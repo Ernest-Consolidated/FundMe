@@ -45,6 +45,7 @@ export default function Home() {
   const [cvv, setCvv] = useState(null);
   const [expMonth, setExpMonth] = useState(null);
   const [expYear, setExpYear] = useState(null);
+  const [processing, setProcessing] = useState("");
 
   const incompleteForm =
     !cardName ||
@@ -67,6 +68,8 @@ export default function Home() {
 
   const handleDonate = async (e) => {
     e.preventDefault();
+
+    setProcessing(true);
 
     const API_URI = "https://help-fd14d.uc.r.appspot.com/api/donate";
     const body = {
@@ -496,7 +499,7 @@ export default function Home() {
                                   : "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#013f28]"
                               }
                             >
-                              Donate
+                              {processing ? "Processing..." : "Donate"}
                             </button>
                           </div>
                         </form>
