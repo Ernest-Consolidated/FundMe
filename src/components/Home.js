@@ -9,6 +9,8 @@ import {
 import FAQ from "./FAQ";
 import Support from "./Support";
 import axios from "axios";
+import routes from "../routes";
+import { Link } from "react-router-dom";
 
 const navigation = [
   { name: "Home", href: "#", id: "#" },
@@ -166,12 +168,12 @@ export default function Home() {
                 </div>
               </div>
               <div className="hidden md:flex">
-                <a
-                  href="#"
+                <Link
+                  to={routes.start}
                   className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-[#063020]"
                 >
-                  v1.0
-                </a>
+                  Start A FundMe
+                </Link>
               </div>
             </nav>
 
@@ -216,12 +218,12 @@ export default function Home() {
                       </a>
                     ))}
                   </div>
-                  <a
-                    href="#"
+                  <link
+                    to={routes.start}
                     className="block w-full px-5 py-3 text-center font-medium text-[#013f28] bg-gray-50 hover:bg-gray-100"
                   >
-                    v1.0
-                  </a>
+                    Start A FundMe
+                  </link>
                 </div>
               </Popover.Panel>
             </Transition>
@@ -239,17 +241,17 @@ export default function Home() {
                       <span className="px-3 py-0.5 text-white text-sm font-semibold leading-5 bg-[#0f865a] rounded-full">
                         Hi there
                       </span>
-                      <span className="ml-4 text-sm">Welcome to Help.com</span>
+                      <span className="ml-4 text-sm">Welcome to FundMe</span>
                       <ChevronRightIcon
                         className="ml-2 w-5 h-5 text-gray-500"
                         aria-hidden="true"
                       />
                     </a>
                     <h1 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl sm:tracking-tight md:text-6xl md:tracking-tight">
-                      Platform to help charity organizations
+                      FundMe for both individuals & charity organizations
                     </h1>
                     <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
-                      Help.com is a platform that gives you access to make
+                      FundMe is a platform that gives you access to make
                       donations to different charity organizations. We are
                       trying to make it easy for charity homes to recieve
                       donation and make this world a better place.
