@@ -252,9 +252,10 @@ export default function Home() {
                     </h1>
                     <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
                       FundMe is a platform that gives you access to make
-                      donations to different charity organizations. We are
-                      trying to make it easy for charity homes to recieve
-                      donation and make this world a better place.
+                      donations to different charity organizations and
+                      individuals. We are trying to make it easy for charity
+                      homes to recieve donation and make this world a better
+                      place.
                     </p>
                     <p className="mt-8 text-base text-white font-semibold sm:mt-10">
                       Our Partners

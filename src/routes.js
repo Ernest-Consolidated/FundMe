@@ -4,4 +4,5 @@ export default {
   paymentSuccess: "/payment_success",
   start: "/start_fundme",
   login: "/login",
+  dashboard: "/dashboard",
 };

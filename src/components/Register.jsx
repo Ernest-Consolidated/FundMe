@@ -1,8 +1,45 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { Link } from "react-router-dom";
+import { useState } from "react";
+import { Link, Navigate, useNavigate } from "react-router-dom";
+import UseAuth from "../hooks/UseAuth";
 import routes from "../routes";
+import FormInput from "./FormInput";
 
 export default function Register() {
+  const { createAccount, user } = UseAuth();
+  const navigate = useNavigate();
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = values;
+
+  const handleSubmit = (email, pwd) => {
+    createAccount(email, pwd);
+    navigate("/dashboard");
+  };
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const inputs = [
+    {
+      id: 1,
+      name: "email",
+      type: "text",
+      placeholder: "Email",
+      label: "Email",
+    },
+    {
+      id: 2,
+      name: "password",
+      type: "text",
+      placeholder: "Password",
+      label: "Password",
+    },
+  ];
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -17,39 +54,23 @@ export default function Register() {
               Start A FundMe
             </h2>
           </div>
-          <form className="mt-8 space-y-6">
+          <form
+            className="mt-8 space-y-6"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(email, password);
+            }}
+          >
             <input type="hidden" name="remember" defaultValue="true" />
-            <div className="rounded-md shadow-sm -space-y-px">
-              <div>
-                <label htmlFor="email-address" className="sr-only">
-                  Email address
-                </label>
-                <input
-                  id="email-address"
-                  name="email"
-                  type="email"
-                  //   autoComplete="email"
-                  //   onChange={onChange}
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Email address"
+            <div className="rounded-md shadow-sm space-y-3">
+              {inputs.map((input) => (
+                <FormInput
+                  key={input.id}
+                  {...input}
+                  onChange={handleChange}
+                  value={values[input.name]}
                 />
-              </div>
-              <div>
-                <label htmlFor="password" className="sr-only">
-                  Password
-                </label>
-                <input
-                  id="password"
-                  name="password"
-                  //   onChange={onChange}
-                  type="password"
-                  //   autoComplete="current-password"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Password"
-                />
-              </div>
+              ))}
             </div>
 
             <div className="flex items-center justify-between">
