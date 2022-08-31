@@ -1,0 +1,16 @@
+span {
+  display: none;
+}
+
+input:invalid[focused="true"] {
+  --tw-text-opacity: 1;
+  border: 1px solid rgb(220 38 38 / var(--tw-text-opacity));
+}
+
+input:focus {
+  outline: none;
+}
+
+input:invalid[focused="true"] ~ span {
+  display: block;
+}

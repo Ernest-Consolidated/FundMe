@@ -1,8 +1,40 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
-import { Link } from "react-router-dom";
-import routes from "../routes";
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import UseAuth from "../../hooks/UseAuth";
+import routes from "../../routes";
+import Swal from "sweetalert2";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../../firebase";
 
 export default function Login() {
+  const { signIn, user } = UseAuth();
+  const [values, setValues] = useState({
+    email: "",
+    password: "",
+  });
+
+  const { email, password } = values;
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (email, pwd) => {
+    signIn(email, pwd);
+  };
+
+  const handleChange = (e) => {
+    setValues({ ...values, [e.target.name]: e.target.value });
+  };
+
+  const resetPass = () => {
+    sendPasswordResetEmail(auth, user)
+      .then(() => console.log("Sent"))
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(`${errorCode}: ${errorMessage}`);
+      });
+  };
   return (
     <>
       <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
@@ -17,7 +49,13 @@ export default function Login() {
               Welcome Back!
             </h2>
           </div>
-          <form className="mt-8 space-y-6">
+          <form
+            className="mt-8 space-y-6"
+            onSubmit={(e) => {
+              e.preventDefault();
+              handleSubmit(email, password);
+            }}
+          >
             <input type="hidden" name="remember" defaultValue="true" />
             <div className="rounded-md shadow-sm -space-y-px">
               <div>
@@ -28,8 +66,8 @@ export default function Login() {
                   id="email-address"
                   name="email"
                   type="email"
-                  //   autoComplete="email"
-                  //   onChange={onChange}
+                  onChange={handleChange}
+                  value={email}
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Email address"
@@ -42,9 +80,9 @@ export default function Login() {
                 <input
                   id="password"
                   name="password"
-                  //   onChange={onChange}
+                  onChange={handleChange}
                   type="password"
-                  //   autoComplete="current-password"
+                  value={password}
                   required
                   className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                   placeholder="Password"
@@ -85,8 +123,18 @@ export default function Login() {
             </div>
             <span className="items-center justify-center flex text-sm">
               Don't have an account{" "}
-              <Link to={routes.start} className="ml-1 underline text-gray-700">
+              <Link
+                to={routes.start}
+                className="ml-1 mr-1 underline text-gray-700"
+              >
                 Create Account
+              </Link>
+              OR
+              <Link
+                to={routes.resetPassword}
+                className="ml-2 cursor-pointer underline text-gray-700"
+              >
+                Reset Password
               </Link>
               .
             </span>

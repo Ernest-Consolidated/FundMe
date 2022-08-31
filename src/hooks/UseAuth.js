@@ -9,6 +9,8 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setUser } from "../features/auth/authSlice";
 import { auth } from "../firebase";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext({
   // InitialState
@@ -19,6 +21,7 @@ export const AuthProvider = ({ children }) => {
   // const [user, setUser] = useState(null);
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
 
   const dispatch = useDispatch();
 
@@ -48,10 +51,17 @@ export const AuthProvider = ({ children }) => {
         if (userCredential) {
           const { accessToken, uid, email } = userCredential.user;
           setUser({ accessToken, uid, email });
+          navigate("/dashboard");
         }
       })
       .catch((error) => {
         setError(error);
+        Swal.fire({
+          title: "Error!",
+          text: "Invalid credentials",
+          icon: "error",
+          confirmButtonText: "close",
+        });
       });
   };
 

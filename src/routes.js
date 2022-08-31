@@ -5,4 +5,5 @@ export default {
   start: "/start_fundme",
   login: "/login",
   dashboard: "/dashboard",
+  resetPassword: "/reset",
 };

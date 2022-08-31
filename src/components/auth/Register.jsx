@@ -1,9 +1,9 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import UseAuth from "../hooks/UseAuth";
-import routes from "../routes";
-import FormInput from "./FormInput";
+import UseAuth from "../../hooks/UseAuth";
+import routes from "../../routes";
+import FormInput from "../Form/FormInput";
 
 export default function Register() {
   const { createAccount, user } = UseAuth();
@@ -28,16 +28,22 @@ export default function Register() {
     {
       id: 1,
       name: "email",
-      type: "text",
+      type: "email",
       placeholder: "Email",
+      errorMessage: "input a valid email",
       label: "Email",
+      required: true,
     },
     {
       id: 2,
       name: "password",
       type: "text",
       placeholder: "Password",
+      errorMessage:
+        "Password should be 8-20 characters and include at least 1 letter",
       label: "Password",
+      pattern: `^(?=.*[0-9])(?=.*[a-zA-Z])(?=.*[!@#$%^&*])[a-zA-Z0-9!@#$%^&*]{8,20}$`,
+      required: true,
     },
   ];
   return (
@@ -62,7 +68,7 @@ export default function Register() {
             }}
           >
             <input type="hidden" name="remember" defaultValue="true" />
-            <div className="rounded-md shadow-sm space-y-3">
+            <div className="space-y-3">
               {inputs.map((input) => (
                 <FormInput
                   key={input.id}
