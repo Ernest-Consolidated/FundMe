@@ -6,6 +6,8 @@ import {
   signOut,
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/auth/authSlice";
 import { auth } from "../firebase";
 
 const AuthContext = createContext({
@@ -14,17 +16,20 @@ const AuthContext = createContext({
 
 export const AuthProvider = ({ children }) => {
   const [error, setError] = useState(null);
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
   const [loadingInitial, setLoadingInitial] = useState(true);
   const [loading, setLoading] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(
     () =>
       onAuthStateChanged(auth, (user) => {
         if (user) {
+          const { accessToken, uid, email } = user;
           // if a user is logged in
+          dispatch(setUser({ accessToken, uid, email }));
           // console.log(user);
-          setUser(user);
           //   setUserLoaded(true);
         } else {
           // if user logout
@@ -41,7 +46,8 @@ export const AuthProvider = ({ children }) => {
     signInWithEmailAndPassword(auth, email, pwd)
       .then((userCredential) => {
         if (userCredential) {
-          setUser(userCredential.user);
+          const { accessToken, uid, email } = userCredential.user;
+          setUser({ accessToken, uid, email });
         }
       })
       .catch((error) => {
@@ -71,14 +77,13 @@ export const AuthProvider = ({ children }) => {
 
   const memoedValue = useMemo(
     () => ({
-      user,
       loading,
       error,
       signIn,
       createAccount,
       logout,
     }),
-    [user, loading, error]
+    [loading, error]
   );
   return (
     <AuthContext.Provider value={memoedValue}>
