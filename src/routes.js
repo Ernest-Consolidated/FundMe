@@ -6,4 +6,5 @@ export default {
   login: "/login",
   dashboard: "/dashboard",
   resetPassword: "/reset",
+  onboarding: "/onboarding",
 };

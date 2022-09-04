@@ -1,9 +1,8 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import UseAuth from "../../hooks/UseAuth";
 import routes from "../../routes";
-import Swal from "sweetalert2";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../firebase";
 
@@ -16,8 +15,6 @@ export default function Login() {
 
   const { email, password } = values;
 
-  const navigate = useNavigate();
-
   const handleSubmit = (email, pwd) => {
     signIn(email, pwd);
   };
@@ -26,18 +23,9 @@ export default function Login() {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
-  const resetPass = () => {
-    sendPasswordResetEmail(auth, user)
-      .then(() => console.log("Sent"))
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(`${errorCode}: ${errorMessage}`);
-      });
-  };
   return (
     <>
-      <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-full bg-[url('https://tailwindui.com/img/beams-home@95.jpg')] bg-cover h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full space-y-8">
           <div>
             <img

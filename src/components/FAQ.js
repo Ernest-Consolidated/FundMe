@@ -50,9 +50,9 @@ export default function FAQ() {
                   <>
                     <dt className="text-lg">
                       <Disclosure.Button className="text-left w-full flex justify-between items-start text-gray-400">
-                        <span className="font-medium text-gray-900">
+                        <p className="font-medium text-gray-900">
                           {faq.question}
-                        </span>
+                        </p>
                         <span className="ml-6 h-7 flex items-center">
                           <ChevronDownIcon
                             className={classNames(

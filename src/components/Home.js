@@ -42,12 +42,13 @@ export default function Home() {
   const [selectedPerson, setSelectedPerson] = useState();
   const [cardNumber, setCardNumber] = useState(null);
   const [cardName, setCardName] = useState(null);
-  const [org, setOrg] = useState(null);
+  const [walletId, setWalletID] = useState(null);
   const [amount, setAmount] = useState(null);
   const [cvv, setCvv] = useState(null);
   const [expMonth, setExpMonth] = useState(null);
   const [expYear, setExpYear] = useState(null);
   const [processing, setProcessing] = useState("");
+  const [active, setActive] = useState(true);
 
   const incompleteForm =
     !cardName ||
@@ -56,7 +57,8 @@ export default function Home() {
     !amount ||
     !cvv ||
     !expMonth ||
-    !expYear;
+    !expYear ||
+    !walletId;
 
   const filteredPeople =
     query === ""
@@ -76,7 +78,7 @@ export default function Home() {
     const API_URI = "https://help-fd14d.uc.r.appspot.com/api/donate";
     const body = {
       name: cardName,
-      organization: selectedPerson?.name,
+      userWalletId: walletId,
       amount: amount,
       payment_method: {
         type: "sg_debit_cup_card",
@@ -218,12 +220,12 @@ export default function Home() {
                       </a>
                     ))}
                   </div>
-                  <link
+                  <Link
                     to={routes.start}
                     className="block w-full px-5 py-3 text-center font-medium text-[#013f28] bg-gray-50 hover:bg-gray-100"
                   >
                     Start A FundMe
-                  </link>
+                  </Link>
                 </div>
               </Popover.Panel>
             </Transition>
@@ -238,24 +240,23 @@ export default function Home() {
                       href="#"
                       className="inline-flex items-center text-white bg-[#063020] rounded-full p-1 pr-2 sm:text-base lg:text-sm xl:text-base hover:text-gray-200"
                     >
-                      <span className="px-3 py-0.5 text-white text-sm font-semibold leading-5 bg-[#0f865a] rounded-full">
+                      <p className="px-3 py-0.5 text-white text-sm font-semibold leading-5 bg-[#0f865a] rounded-full">
                         Hi there
-                      </span>
-                      <span className="ml-4 text-sm">Welcome to FundMe</span>
+                      </p>
+                      <p className="ml-4 text-sm">Welcome to FundMe</p>
                       <ChevronRightIcon
                         className="ml-2 w-5 h-5 text-gray-500"
                         aria-hidden="true"
                       />
                     </a>
                     <h1 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl sm:tracking-tight md:text-6xl md:tracking-tight">
-                      FundMe for both individuals & charity organizations
+                      FundMe, for both individuals & organizations
                     </h1>
                     <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
                       FundMe is a platform that gives you access to make
                       donations to different charity organizations and
-                      individuals. We are trying to make it easy for charity
-                      homes to recieve donation and make this world a better
-                      place.
+                      individuals. We are trying to make it easy for individuals
+                      and charity homes to recieve donation.
                     </p>
                     <p className="mt-8 text-base text-white font-semibold sm:mt-10">
                       Our Partners
@@ -294,25 +295,52 @@ export default function Home() {
                         <p className="text-sm font-medium text-gray-700">
                           Make A Donation
                         </p>
+                        {/* <a
+                          href="#"
+                          className="inline-flex items-center text-black bg-gray-400 rounded-full p-1 pr-2 sm:text-base lg:text-sm xl:text-base"
+                        >
+                          <p
+                            onClick={() => setActive(true)}
+                            className={classNames(
+                              "px-3 py-0.5 text-sm",
+                              active
+                                ? "font-semibold leading-5 bg-black text-white rounded-full"
+                                : null
+                            )}
+                          >
+                            Organization
+                          </p>
+                          <p
+                            onClick={() => setActive(false)}
+                            className={classNames(
+                              "ml-4 text-sm py-0.5 px-3",
+                              !active
+                                ? "font-semibold leading-5 bg-[black] text-white rounded-full"
+                                : null
+                            )}
+                          >
+                            Individual
+                          </p>
+                        </a> */}
                       </div>
 
                       <div className="mt-6">
                         <form className="space-y-6">
-                          {/* <div>
-                            <label htmlFor="name" className="sr-only">
-                              Select Organization
+                          <div>
+                            <label htmlFor="wallet" className="sr-only">
+                              User Wallet ID
                             </label>
                             <input
                               type="text"
-                              name="name"
-                              id="name"
+                              name="wallet"
+                              id="wallet"
                               // autoComplete="name"
-                              placeholder="Select Organization"
+                              placeholder="User Wallet ID"
                               required
                               className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
                             />
-                          </div> */}
-                          <Combobox
+                          </div>
+                          {/* <Combobox
                             as="div"
                             value={selectedPerson}
                             onChange={setSelectedPerson}
@@ -381,7 +409,7 @@ export default function Home() {
                                 </Combobox.Options>
                               )}
                             </div>
-                          </Combobox>
+                          </Combobox> */}
 
                           <div>
                             <label

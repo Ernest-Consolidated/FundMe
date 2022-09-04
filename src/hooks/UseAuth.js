@@ -7,7 +7,7 @@ import {
 } from "firebase/auth";
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import { useDispatch } from "react-redux";
-import { setUser } from "../features/auth/authSlice";
+import { resetUser, setUser } from "../features/auth/authSlice";
 import { auth } from "../firebase";
 import Swal from "sweetalert2";
 import { useNavigate } from "react-router-dom";
@@ -36,13 +36,13 @@ export const AuthProvider = ({ children }) => {
           //   setUserLoaded(true);
         } else {
           // if user logout
-          setUser(null);
+          dispatch(resetUser());
         }
 
         setLoadingInitial(false);
       }),
 
-    []
+    [dispatch]
   );
 
   const signIn = (email, pwd) => {
@@ -82,7 +82,10 @@ export const AuthProvider = ({ children }) => {
 
     signOut(auth)
       .catch((error) => setError(error))
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        dispatch(resetUser());
+      });
   };
 
   const memoedValue = useMemo(
