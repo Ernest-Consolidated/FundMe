@@ -10,6 +10,7 @@ const initialState = {
   isError: false,
   isSuccess: false,
   isLoading: false,
+  onBoarding: false,
   message: "",
 };
 
@@ -26,14 +27,22 @@ export const authSlice = createSlice({
       state.uid = payload.uid;
     },
     resetUser: (state) => {
-      state.isLoading = false;
-      state.isSuccess = true;
       state.user = null;
       state.accessToken = null;
       state.uid = null;
     },
+    reset: (state) => {
+      state.isLoading = false;
+      state.isSuccess = false;
+      state.isError = false;
+      state.message = "";
+    },
+    setOnboarding: (state) => {
+      state.onBoarding = true;
+      state.isLoading = false;
+    },
   },
 });
 
-export const { setUser, resetUser } = authSlice.actions;
+export const { setUser, resetUser, reset, setOnboarding } = authSlice.actions;
 export default authSlice.reducer;

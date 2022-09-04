@@ -70,6 +70,7 @@ export const AuthProvider = ({ children }) => {
       .then((userCredential) => {
         if (userCredential) {
           sendEmailVerification(userCredential.user);
+          navigate("/onboarding");
         }
       })
       .catch((error) => {
@@ -85,6 +86,7 @@ export const AuthProvider = ({ children }) => {
       .finally(() => {
         setLoading(false);
         dispatch(resetUser());
+        navigate("/login");
       });
   };
 

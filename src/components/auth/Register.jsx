@@ -1,12 +1,12 @@
 import { LockClosedIcon } from "@heroicons/react/solid";
 import { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import UseAuth from "../../hooks/UseAuth";
 import routes from "../../routes";
 import FormInput from "../Form/FormInput";
 
 export default function Register() {
-  const { createAccount, user } = UseAuth();
+  const { createAccount } = UseAuth();
   const navigate = useNavigate();
   const [values, setValues] = useState({
     email: "",
@@ -17,7 +17,6 @@ export default function Register() {
 
   const handleSubmit = (email, pwd) => {
     createAccount(email, pwd);
-    navigate("/dashboard");
   };
 
   const handleChange = (e) => {
