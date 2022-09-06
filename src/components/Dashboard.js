@@ -1,13 +1,14 @@
 import React, { useEffect } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { reset } from "../features/auth/authSlice";
 import Card from "./Card";
 import Header from "./Header";
 import Stats from "./Stats";
-import Transactions from "./Transactions";
 
 const Dashboard = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const { onBoarding, isError, message, user } = useSelector(
     (state) => state.auth
   );
@@ -31,6 +32,11 @@ const Dashboard = () => {
       dispatch(reset());
     };
   }, [user, navigate, isError, message, onBoarding, dispatch]);
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    setIsOpen(!isOpen);
+  };
 
   return (
     <div className="container">
@@ -66,11 +72,23 @@ const Dashboard = () => {
         </div>
       </div>
       <Stats />
-      <div className="flex items-center justify-center my-10">
-        <button className="w-auto flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-semibold bg-gray-400">
-          View Transactions
+      <div className="flex items-center justify-center my-6">
+        <button
+          onClick={handleClick}
+          className="w-auto flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-semibold bg-gray-400"
+        >
+          View Payment Link
         </button>
       </div>
+      {isOpen && (
+        <div className="flex items-center justify-center my-3">
+          <div className="flex py-2 max-w-lg text-xs items-center justify-start bg-gray-300 rounded-md">
+            <p className="mx-3">
+              http://localhost:3000/?data=ewallet_c4450ec162dc72bb068b19194f024d91sfkssd
+            </p>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
