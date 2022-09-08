@@ -1,11 +1,5 @@
 import React from "react";
 
-const stats = [
-  { name: "USD Account", stat: "$11,897" },
-  { name: "GBP Account", stat: "£58.16" },
-  { name: "EUR Account", stat: "€24.57" },
-];
-
 export default function Stats({ usdAcc }) {
   return (
     <div className="mt-8">

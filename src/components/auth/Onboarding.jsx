@@ -78,9 +78,6 @@ export default function Onboarding() {
     setProcessing(true);
 
     const WALLET_API_URI = "https://help-fd14d.uc.r.appspot.com/api/wallet";
-    const ACCOUNT_API_URI =
-      "https://help-fd14d.uc.r.appspot.com/api/virtual_account";
-    const CARD_API_URI = "https://help-fd14d.uc.r.appspot.com/api/card";
 
     const body = {
       first_name: firstName,

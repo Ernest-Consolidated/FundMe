@@ -94,8 +94,9 @@ const Dashboard = () => {
     console.log(cardDetails);
   }
 
-  const ACCOUNT_API_URI = "http://localhost:1337/api/virtual_account";
-  const CARD_API_URI = "http://localhost:1337/api/card";
+  const ACCOUNT_API_URI =
+    "https://help-fd14d.uc.r.appspot.com/api/virtual_account";
+  const CARD_API_URI = "https://help-fd14d.uc.r.appspot.com/api/card";
 
   const handleCard = async () => {
     setLoading(true);
@@ -137,7 +138,8 @@ const Dashboard = () => {
   useEffect(() => {
     async function fetchData() {
       const wallet = walletInfo && walletInfo[0].data.id;
-      const BALANCE_URI = "http://localhost:1337/api/retrieve_balance";
+      const BALANCE_URI =
+        "https://help-fd14d.uc.r.appspot.com/api/retrieve_balance";
       const res = await axios.post(BALANCE_URI, { wallet });
       // console.log(res.data);
       setAccountBalance(res.data);
