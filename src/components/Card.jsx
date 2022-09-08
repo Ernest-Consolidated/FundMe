@@ -1,6 +1,6 @@
 import React from "react";
 
-const Card = () => {
+const Card = ({ fName, lName }) => {
   return (
     <>
       <div className="w-96 h-56 bg-red-100 rounded-xl relative text-white shadow-2xl transition-transform transform hover:scale-110">
@@ -14,7 +14,7 @@ const Card = () => {
             <div className="text-left">
               <p className="font-light text-sm">Name</p>
               <p className="font-medium tracking-widest">
-                Nnaemeka Onukwube .E
+                {fName} {lName}
               </p>
             </div>
             <img className="w-14 h-14" src="images/main.png" />
@@ -22,18 +22,19 @@ const Card = () => {
           <div className="pt-1 items-start justify-start text-left">
             <p className="font-light text-sm">Card Number</p>
             <p className="font-medium tracking-more-wider">
-              4642 3489 9867 7632
+              **** **** **** ****
+              {/* 4642 3489 9867 7632 */}
             </p>
           </div>
           <div className="pt-6 pr-6">
             <div className="flex justify-between">
               <div className="">
                 <p className="font-light text-xs">Valid</p>
-                <p className="font-medium tracking-wider text-sm">11/15</p>
+                <p className="font-medium tracking-wider text-sm">...</p>
               </div>
               <div className="">
                 <p className="font-light text-xs">Expiry</p>
-                <p className="font-medium tracking-wider text-sm">03/25</p>
+                <p className="font-medium tracking-wider text-sm">...</p>
               </div>
 
               <div className="">

@@ -1,12 +1,20 @@
+import { wait } from "@testing-library/user-event/dist/utils";
+import axios from "axios";
+import { addDoc, collection } from "firebase/firestore";
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { countries } from "../../data";
-import { reset, setOnboarding } from "../../features/auth/authSlice";
+import {
+  reset,
+  setOnboarding,
+  setWalletDetail,
+} from "../../features/auth/authSlice";
+import { db } from "../../firebase";
 
 export default function Onboarding() {
-  const { user, isError, message, onBoarding } = useSelector(
+  const { user, uid, isError, message, onBoarding } = useSelector(
     (state) => state.auth
   );
   const [formData, setFormData] = useState({
@@ -23,10 +31,16 @@ export default function Onboarding() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { firstName, lastName, email } = formData;
+  const { firstName, lastName, email, phoneNumber, address } = formData;
 
   const incompleteForm =
-    !firstName || !lastName || !email || !country || !accountType;
+    !firstName ||
+    !lastName ||
+    !email ||
+    !country ||
+    !address ||
+    !phoneNumber ||
+    !accountType;
 
   useEffect(() => {
     if (isError) {
@@ -58,14 +72,54 @@ export default function Onboarding() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     setProcessing(true);
 
-    dispatch(setOnboarding());
+    const WALLET_API_URI = "https://help-fd14d.uc.r.appspot.com/api/wallet";
+    const ACCOUNT_API_URI =
+      "https://help-fd14d.uc.r.appspot.com/api/virtual_account";
+    const CARD_API_URI = "https://help-fd14d.uc.r.appspot.com/api/card";
 
-    navigate("/dashboard");
+    const body = {
+      first_name: firstName,
+      last_name: lastName,
+      type: accountType,
+      contact: {
+        email: email,
+        first_name: firstName,
+        last_name: lastName,
+        phone_number: phoneNumber,
+        contact_type: accountType === "person" ? "personal" : "business",
+        address: {
+          name: `${firstName} ${lastName}`,
+          line_1: address,
+          country: country,
+          phone_number: phoneNumber,
+        },
+        metadata: {
+          merchant_defined: true,
+        },
+        country: country,
+        nationality: country,
+      },
+    };
+
+    try {
+      const walletRes = await axios.post(WALLET_API_URI, body);
+      console.log(walletRes.data);
+      await addDoc(collection(db, "users", uid, "wallet"), {
+        ...walletRes.data,
+        onboarding: false,
+      });
+      const { data } = walletRes;
+      dispatch(setWalletDetail(data));
+      dispatch(setOnboarding());
+      navigate("/dashboard");
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -134,7 +188,7 @@ export default function Onboarding() {
                     type="text"
                     name="address"
                     id="address"
-                    placeholder="Address (optional)"
+                    placeholder="Address line 1"
                     onChange={handleChange}
                     className="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                   />
@@ -150,7 +204,7 @@ export default function Onboarding() {
                       name="phoneNumber"
                       id="phoneNumber"
                       onChange={handleChange}
-                      placeholder="Phone Number (optional)"
+                      placeholder="Phone Number"
                       className="inline-flex w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
                     />
                   </div>
@@ -193,8 +247,8 @@ export default function Onboarding() {
                       <option value="" disabled>
                         Account Type
                       </option>
-                      <option value="Personal">Personal</option>
-                      <option value="Company">Company</option>
+                      <option value="person">person</option>
+                      <option value="company">company</option>
                     </select>
                   </div>
                 </div>
@@ -209,7 +263,26 @@ export default function Onboarding() {
                         : "w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-[#013f28]"
                     }
                   >
-                    {processing ? "Processing..." : "Save"}
+                    {processing && (
+                      <div role="status">
+                        <svg
+                          className="inline mr-2 w-5 h-5 text-gray-200 animate-spin dark:text-gray-600 fill-green-500"
+                          viewBox="0 0 100 101"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                            fill="currentColor"
+                          />
+                          <path
+                            d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                            fill="currentFill"
+                          />
+                        </svg>
+                      </div>
+                    )}
+                    {processing ? "Saving..." : "Save"}
                   </button>
                 </div>
               </form>

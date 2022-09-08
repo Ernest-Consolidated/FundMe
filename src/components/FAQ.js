@@ -1,6 +1,6 @@
 /* This example requires Tailwind CSS v2.0+ */
 import { Disclosure } from "@headlessui/react";
-import { ChevronDownIcon } from "@heroicons/react/outline";
+import { ChevronDownIcon } from "@heroicons/react/24/outline";
 
 const faqs = [
   {

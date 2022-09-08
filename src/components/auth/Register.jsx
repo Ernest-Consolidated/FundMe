@@ -1,4 +1,4 @@
-import { LockClosedIcon } from "@heroicons/react/solid";
+import { LockClosedIcon } from "@heroicons/react/20/solid";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import UseAuth from "../../hooks/UseAuth";
@@ -36,7 +36,7 @@ export default function Register() {
     {
       id: 2,
       name: "password",
-      type: "text",
+      type: "password",
       placeholder: "Password",
       errorMessage:
         "Password should be 8-20 characters and include at least 1 letter",

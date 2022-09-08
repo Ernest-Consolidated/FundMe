@@ -12,6 +12,7 @@ const initialState = {
   isLoading: false,
   onBoarding: false,
   message: "",
+  walletDetails: [],
 };
 
 export const authSlice = createSlice({
@@ -41,8 +42,12 @@ export const authSlice = createSlice({
       state.onBoarding = true;
       state.isLoading = false;
     },
+    setWalletDetail: (state, action) => {
+      state.walletDetails.push(action.payload);
+    },
   },
 });
 
-export const { setUser, resetUser, reset, setOnboarding } = authSlice.actions;
+export const { setUser, resetUser, reset, setOnboarding, setWalletDetail } =
+  authSlice.actions;
 export default authSlice.reducer;
