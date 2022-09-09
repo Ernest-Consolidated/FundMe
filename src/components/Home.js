@@ -245,7 +245,7 @@ export default function Home() {
                       />
                     </a>
                     <h1 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl sm:tracking-tight md:text-6xl md:tracking-tight">
-                      FundMe, for both individuals & organizations
+                      Receive Funds in SGD, GBP & EUR
                     </h1>
                     <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
                       FundMe is a platform that gives you access to make
@@ -553,26 +553,24 @@ export default function Home() {
                     </div>
                     <div className="px-4 py-4 bg-gray-50 border-t-2 border-gray-200 sm:px-10">
                       <p className="text-xs leading-5 text-gray-500">
-                        By donating, you agree to our{" "}
+                        All Card payments are{" "}
                         <a
                           href="#"
                           className="font-medium text-gray-900 hover:underline"
                         >
-                          Terms
-                        </a>
-                        ,{" "}
-                        <a
-                          href="#"
-                          className="font-medium text-gray-900 hover:underline"
-                        >
-                          Data Policy
+                          accepted
                         </a>{" "}
-                        and{" "}
                         <a
                           href="#"
                           className="font-medium text-gray-900 hover:underline"
                         >
-                          Cookies Policy
+                          in
+                        </a>{" "}
+                        <a
+                          href="#"
+                          className="font-medium text-gray-900 hover:underline"
+                        >
+                          SGD only
                         </a>
                         .
                       </p>
