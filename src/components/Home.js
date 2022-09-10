@@ -7,6 +7,9 @@ import Support from "./Support";
 import axios from "axios";
 import routes from "../routes";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { resetWallet } from "../features/wallet/walletSlice";
 
 const navigation = [
   { name: "Home", href: "#", id: "#" },
@@ -44,7 +47,9 @@ export default function Home() {
   const [expMonth, setExpMonth] = useState(null);
   const [expYear, setExpYear] = useState(null);
   const [processing, setProcessing] = useState("");
-  const [active, setActive] = useState(true);
+  const [walletParam, setWalletParam] = useState(false);
+  const { walletIdFromParams } = useSelector((state) => state.wallet);
+  const dispatch = useDispatch();
 
   const incompleteForm =
     !cardName ||
@@ -62,6 +67,16 @@ export default function Home() {
           return person.name.toLowerCase().includes(query.toLowerCase());
         });
 
+  useEffect(() => {
+    if (walletIdFromParams) {
+      setWalletID(walletIdFromParams);
+      setWalletParam(true);
+    }
+
+    return () => {
+      dispatch(resetWallet());
+    };
+  }, [walletIdFromParams]);
   // console.log(incompleteForm);
   // https://api.ebay.com/commerce/charity/v1/charity_org
 
@@ -326,14 +341,20 @@ export default function Home() {
                               User Wallet ID
                             </label>
                             <input
+                              disabled={walletParam && true}
                               type="text"
                               name="wallet"
                               id="wallet"
+                              value={walletParam ? walletId : null}
                               // autoComplete="name"
                               onChange={(e) => setWalletID(e.target.value)}
                               placeholder="User Wallet ID"
                               required
-                              className="block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                              className={
+                                !walletParam
+                                  ? "block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                                  : "bg-slate-100 block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+                              }
                             />
                           </div>
                           {/* <Combobox

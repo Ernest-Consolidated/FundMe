@@ -10,6 +10,7 @@ import {
   REGISTER,
 } from "redux-persist";
 import authSlice from "../features/auth/authSlice";
+import walletSlice from "../features/wallet/walletSlice";
 
 const persistConfig = {
   key: "root",
@@ -19,6 +20,7 @@ const persistConfig = {
 
 const reducer = combineReducers({
   auth: authSlice,
+  wallet: walletSlice,
 });
 
 const persistedReducer = persistReducer(persistConfig, reducer);
