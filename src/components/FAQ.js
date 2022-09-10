@@ -6,27 +6,26 @@ const faqs = [
   {
     question: "What's FundMe?",
     answer:
-      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      "FundMe is a platform that helps individuals and organizations recieve funds in SGD, GBP & EUR",
   },
   {
     question: "What happens after donation?",
     answer:
-      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      "Users can create virtual cards attached to the virtual bank account and they will be able to spend their funds from the card",
   },
   {
     question: "How can I become a partner?",
     answer:
-      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      "To become a partner, you'll have to contact our support down below.",
   },
   {
     question: "What if I have an issue with my card?",
-    answer:
-      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+    answer: "Contact our support, we are ready to help anytime.",
   },
   {
-    question: "Are the charity organization not list?",
+    question: "Why can't I create a virtual card",
     answer:
-      "I don't know, but the flag is a big plus. Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas cupiditate laboriosam fugiat.",
+      "This feature is not yet supported, we are still waiting on our partners Rapyd.",
   },
   // More questions...
 ];

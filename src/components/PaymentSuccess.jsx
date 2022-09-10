@@ -22,7 +22,7 @@ export default function PaymentSuccess() {
               <div className="mt-2">
                 <p className="text-sm text-gray-500">
                   Thanks for your kind donation, we are glad that you are
-                  willing to assist this Charity organization
+                  willing to assist
                 </p>
               </div>
             </div>

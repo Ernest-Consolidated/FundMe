@@ -81,7 +81,7 @@ const Dashboard = () => {
       console.log(message);
     }
 
-    if (!user) {
+    if (!user || !uid) {
       navigate("/login");
     }
 

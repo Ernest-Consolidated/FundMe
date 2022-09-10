@@ -8,23 +8,22 @@ import {
 const supportLinks = [
   {
     name: "Sales",
-    href: "#",
+    href: "mailto:emeksthecreator.dev@gmail.com",
     description:
-      "Varius facilisi mauris sed sit. Non sed et duis dui leo, vulputate id malesuada non. Cras aliquet purus dui laoreet diam sed lacus, fames.",
+      "Our sales team are ever ready to help, just click the contact us button and you are all set.",
     icon: PhoneIcon,
   },
   {
     name: "Technical Support",
-    href: "#",
+    href: "mailto:emeksthecreator.dev@gmail.com",
     description:
-      "Varius facilisi mauris sed sit. Non sed et duis dui leo, vulputate id malesuada non. Cras aliquet purus dui laoreet diam sed lacus, fames.",
+      "For any technical issue, please contact our technical support",
     icon: ChatBubbleOvalLeftIcon,
   },
   {
     name: "Media Inquiries",
-    href: "#",
-    description:
-      "Varius facilisi mauris sed sit. Non sed et duis dui leo, vulputate id malesuada non. Cras aliquet purus dui laoreet diam sed lacus, fames.",
+    href: "https://instagram.com/emeksthecreator",
+    description: "We are also on social media, let's connect online.",
     icon: NewspaperIcon,
   },
 ];
@@ -50,9 +49,9 @@ export default function Support() {
             Support
           </h1>
           <p className="mt-6 max-w-3xl text-xl text-gray-300">
-            Varius facilisi mauris sed sit. Non sed et duis dui leo, vulputate
-            id malesuada non. Cras aliquet purus dui laoreet diam sed lacus,
-            fames. Dui, amet, nec sit pulvinar.
+            Welcome to FundMe support, Here you can contact use on any technical
+            complaint you may have and we will get back to you as soon as
+            possible
           </p>
         </div>
       </div>
