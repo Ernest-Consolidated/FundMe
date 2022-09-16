@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { resetWallet } from "../features/wallet/walletSlice";
+import Checkout from "./Checkout";
 
 const navigation = [
   { name: "Home", href: "#", id: "#" },
@@ -603,6 +604,7 @@ export default function Home() {
           </main>
         </div>
       </div>
+      <Checkout />
       <FAQ />
       <Support />
     </>
