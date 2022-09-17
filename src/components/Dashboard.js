@@ -113,7 +113,9 @@ const Dashboard = () => {
   };
 
   const walletId = walletInfo && walletInfo[0].data.id;
-  // console.log(walletId);
+  const contactId = walletInfo && walletInfo[0].data.contacts.data[0].id;
+
+  console.log({ walletId, contactId });
 
   const handleVirtualAccount = async () => {
     setLoading(true);
@@ -152,10 +154,10 @@ const Dashboard = () => {
     return <Spinner />;
   }
 
+  console.log(accountBalance);
   const newArr = accountBalance
     ?.filter((acc) => acc.balance !== "SGD")
     .map((acc) => acc.balance);
-  // console.log(newArr);
 
   return (
     <div className="container">
@@ -222,7 +224,7 @@ const Dashboard = () => {
           />
         </div>
       </div>
-      <Stats usdAcc={newArr} />
+      <Stats accBalance={accountBalance} />
       <div className="flex flex-col lg:flex-row items-center justify-center my-5">
         <div
           onClick={handleClick}
@@ -232,7 +234,7 @@ const Dashboard = () => {
         </div>
       </div>
 
-      <Banner />
+      <Banner ewallet={walletId} contact={contactId} />
     </div>
   );
 };

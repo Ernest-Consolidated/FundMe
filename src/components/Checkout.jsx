@@ -53,11 +53,11 @@ export default function Checkout() {
       <div className="mx-auto max-w-7xl py-12 px-4 sm:py-11 sm:px-6 lg:flex lg:flex-col lg:px-8">
         <div className="items-center justify-center mb-5 z-50">
           <h2 className="text-4xl text-center font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
-            Pay in other currencies
+            Donate in other currencies
           </h2>
           <p className="mt-5 text-xl text-gray-300 text-center">
             You can also donate in other currencies here⬇ supported currencies
-            are GBP, USD, EUR & GBP
+            are GBP, USD, EUR & SGD
           </p>
         </div>
         <div className="mt-16 sm:mt-24 lg:mt-0 lg:col-span-6">

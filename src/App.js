@@ -13,6 +13,7 @@ import PasswordReset from "./components/auth/PasswordReset";
 import Onboarding from "./components/auth/Onboarding";
 import { setWalletIdFromParams } from "./features/wallet/walletSlice";
 import { useDispatch } from "react-redux";
+import VerificationSuccess from "./components/VerificationSuccess";
 
 // GlobalGiving Api key: c857816a-f007-41db-a93b-c8cf53b7622c
 
@@ -38,6 +39,7 @@ function App() {
           <Route path={routes.dashboard} element={<Dashboard />} />
           <Route path={routes.resetPassword} element={<PasswordReset />} />
           <Route path={routes.onboarding} element={<Onboarding />} />
+          <Route path={routes.complete} element={<VerificationSuccess />} />
         </Routes>
       </AuthProvider>
     </Router>

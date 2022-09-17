@@ -7,4 +7,5 @@ export default {
   dashboard: "/dashboard",
   resetPassword: "/reset",
   onboarding: "/onboarding",
+  complete: "/complete",
 };
