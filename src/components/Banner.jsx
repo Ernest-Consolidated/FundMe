@@ -20,7 +20,7 @@ export default function Banner({ ewallet, contact }) {
 
     try {
       const res = await axios.post(API_URI, body);
-      window.location.href = res.data;
+      window.location.href = res.data.redirect_url;
     } catch (error) {
       console.log(error);
     }

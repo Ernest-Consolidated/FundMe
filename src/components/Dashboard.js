@@ -32,51 +32,6 @@ const Dashboard = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const unsub = onSnapshot(
-      collection(db, "users", uid, "wallet"),
-      (snapshot) => {
-        setWalletInfo(
-          snapshot?.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          }))
-        );
-        setLoading(false);
-      }
-    );
-  }, []);
-
-  useEffect(() => {
-    const unsub = onSnapshot(
-      collection(db, "users", uid, "virtualAccounts"),
-      (snapshot) => {
-        setAccountInfo(
-          snapshot?.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          }))
-        );
-        setLoading(false);
-      }
-    );
-  }, []);
-
-  useEffect(() => {
-    const unsub = onSnapshot(
-      collection(db, "users", uid, "virtualCards"),
-      (snapshot) => {
-        setCardDetails(
-          snapshot?.docs.map((doc) => ({
-            id: doc.id,
-            data: doc.data(),
-          }))
-        );
-        setLoading(false);
-      }
-    );
-  }, []);
-
-  useEffect(() => {
     if (isError) {
       console.log(message);
     }
@@ -89,6 +44,57 @@ const Dashboard = () => {
       dispatch(reset());
     };
   }, [user, navigate, isError, message, dispatch]);
+
+  useEffect(() => {
+    if (uid) {
+      const unsub = onSnapshot(
+        collection(db, "users", uid, "wallet"),
+        (snapshot) => {
+          setWalletInfo(
+            snapshot?.docs.map((doc) => ({
+              id: doc.id,
+              data: doc.data(),
+            }))
+          );
+          setLoading(false);
+        }
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (uid) {
+      const unsub = onSnapshot(
+        collection(db, "users", uid, "virtualAccounts"),
+        (snapshot) => {
+          setAccountInfo(
+            snapshot?.docs.map((doc) => ({
+              id: doc.id,
+              data: doc.data(),
+            }))
+          );
+          setLoading(false);
+        }
+      );
+    }
+  }, []);
+
+  useEffect(() => {
+    if (uid) {
+      const unsub = onSnapshot(
+        collection(db, "users", uid, "virtualCards"),
+        (snapshot) => {
+          setCardDetails(
+            snapshot?.docs.map((doc) => ({
+              id: doc.id,
+              data: doc.data(),
+            }))
+          );
+          setLoading(false);
+        }
+      );
+    }
+  }, []);
 
   if (cardDetails) {
     console.log(cardDetails);
@@ -115,7 +121,7 @@ const Dashboard = () => {
   const walletId = walletInfo && walletInfo[0].data.id;
   const contactId = walletInfo && walletInfo[0].data.contacts.data[0].id;
 
-  console.log({ walletId, contactId });
+  // console.log({ walletId, contactId });
 
   const handleVirtualAccount = async () => {
     setLoading(true);
