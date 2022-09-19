@@ -26,6 +26,7 @@ const Dashboard = () => {
   const [walletInfo, setWalletInfo] = useState();
   const [accountInfo, setAccountInfo] = useState();
   const [cardDetails, setCardDetails] = useState();
+  const [cardStat, setCardStat] = useState("");
   const [loading, setLoading] = useState(true);
   const [accountBalance, setAccountBalance] = useState();
   const navigate = useNavigate();
@@ -104,13 +105,33 @@ const Dashboard = () => {
     }
   }, []);
 
-  if (cardDetails) {
-    console.log(cardDetails);
-  }
+  useEffect(() => {
+    if (cardDetails?.length !== 0) {
+      const retreiveCard = async () => {
+        const body = {
+          card: cardDetails && cardDetails[0]?.data.id,
+        };
+        const res = await axios.post(
+          "https://help-fd14d.uc.r.appspot.com/api/retrieve_card",
+          body
+        );
+
+        setCardStat(res.data.status);
+        console.log(res.data);
+      };
+
+      retreiveCard();
+    }
+  }, []);
+
+  // if (cardDetails) {
+  //   console.log(cardDetails);
+  // }
 
   const ACCOUNT_API_URI =
     "https://help-fd14d.uc.r.appspot.com/api/virtual_account";
   const CARD_API_URI = "https://help-fd14d.uc.r.appspot.com/api/card";
+  const ACTIVATE_URI = "https://help-fd14d.uc.r.appspot.com/api/activate";
 
   const handleCard = async () => {
     setLoading(true);
@@ -123,6 +144,17 @@ const Dashboard = () => {
     await addDoc(collection(db, "users", uid, "virtualCards"), {
       ...res.data,
     }).then(() => setLoading(false));
+    console.log(res.data);
+  };
+
+  const activateCard = async () => {
+    setLoading(true);
+    const body = {
+      card: cardDetails && cardDetails[0]?.data.id,
+    };
+    const res = await axios.post(ACTIVATE_URI, body);
+
+    setLoading(false);
     console.log(res.data);
   };
 
@@ -178,12 +210,12 @@ const Dashboard = () => {
       <div className="items-start justify-start flex py-3">
         <h3>{`Welcome, ${walletInfo[0]?.data.first_name} ${walletInfo[0]?.data.last_name}`}</h3>
       </div>
-      {cardDetails && cardDetails[0]?.data.status === "INA" && (
+      {cardStat && cardStat === "INA" && (
         <div className="my-2">
           <button
             onClick={(e) => {
               e.preventDefault();
-              handleCard();
+              activateCard();
               console.log("sent");
             }}
             className="block max-w-sm mt-3 lg:mt-0 py-2 text-xs items-center justify-start bg-[#013f28] cursor-pointer rounded-md"
@@ -222,7 +254,7 @@ const Dashboard = () => {
             )}
           </div>
           <div className="flex flex-col items-start justify-start space-y-2 lg:space-y-0">
-            {cardDetails.length !== 0 ? (
+            {cardDetails?.length !== 0 ? (
               <>
                 <h4 className="font-semibold">Card ID</h4>
                 <div className="block py-2 max-w-sm text-xs items-center justify-start bg-gray-300 rounded-md">
