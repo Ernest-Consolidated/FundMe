@@ -1,7 +1,7 @@
 import { wait } from "@testing-library/user-event/dist/utils";
 import axios from "axios";
 import { addDoc, collection } from "firebase/firestore";
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -23,7 +23,10 @@ export default function Onboarding() {
     address: "",
     phoneNumber: "",
     email: user,
+    city: "",
+    dob: "",
   });
+  const [date_of_birth, setDOB] = useState("");
   const [country, setCountry] = useState("");
   const [accountType, setAccountType] = useState("");
   const [processing, setProcessing] = useState("");
@@ -31,7 +34,8 @@ export default function Onboarding() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { firstName, lastName, email, phoneNumber, address } = formData;
+  const { firstName, lastName, email, phoneNumber, address, dob, city } =
+    formData;
 
   const incompleteForm =
     !firstName ||
@@ -40,7 +44,9 @@ export default function Onboarding() {
     !country ||
     !address ||
     !phoneNumber ||
-    !accountType;
+    !accountType ||
+    !city ||
+    !dob;
 
   useEffect(() => {
     if (isError) {
@@ -51,9 +57,9 @@ export default function Onboarding() {
       navigate("/login");
     }
 
-    if (onBoarding) {
-      navigate("/dashboard");
-    }
+    // if (onBoarding) {
+    //   navigate("/dashboard");
+    // }
 
     return () => {
       dispatch(reset());
@@ -77,6 +83,10 @@ export default function Onboarding() {
 
     setProcessing(true);
 
+    const [year, month, day] = dob && dob.split("-");
+
+    console.log(`${month}/${day}/${year}`);
+
     const WALLET_API_URI = "https://help-fd14d.uc.r.appspot.com/api/wallet";
 
     const body = {
@@ -89,11 +99,13 @@ export default function Onboarding() {
         last_name: lastName,
         phone_number: phoneNumber,
         contact_type: accountType === "person" ? "personal" : "business",
+        date_of_birth: `${month}/${day}/${year}`,
         address: {
           name: `${firstName} ${lastName}`,
           line_1: address,
           country: country,
           phone_number: phoneNumber,
+          city: city,
         },
         metadata: {
           merchant_defined: true,
@@ -108,10 +120,10 @@ export default function Onboarding() {
       console.log(walletRes.data);
       await addDoc(collection(db, "users", uid, "wallet"), {
         ...walletRes.data,
-        onboarding: false,
+        onboarding: true,
       });
       const { data } = walletRes;
-      dispatch(setWalletDetail(data));
+      // dispatch(setWalletDetail(data));
       dispatch(setOnboarding());
       navigate("/dashboard");
     } catch (error) {
@@ -201,7 +213,7 @@ export default function Onboarding() {
                       name="phoneNumber"
                       id="phoneNumber"
                       onChange={handleChange}
-                      placeholder="Phone Number"
+                      placeholder="Phone Number: add country code"
                       className="inline-flex w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
                     />
                   </div>
@@ -249,6 +261,42 @@ export default function Onboarding() {
                     </select>
                   </div>
                 </div>
+
+                <div className="flex flex-row space-x-3">
+                  <div className="">
+                    <label htmlFor="city" className="sr-only">
+                      City
+                    </label>
+                    <input
+                      type="text"
+                      name="city"
+                      id="city"
+                      onChange={handleChange}
+                      placeholder="City"
+                      required
+                      className="block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                    />
+                  </div>
+
+                  <div className="">
+                    <label htmlFor="dob" className="sr-only">
+                      D.O.B
+                    </label>
+                    <div className="">
+                      <input
+                        type="text"
+                        name="dob"
+                        id="dob"
+                        onChange={handleChange}
+                        placeholder="D.O.B"
+                        className="inline-flex w-full border-gray-300 rounded-md shadow-sm sm:text-sm"
+                        onFocus={(e) => (e.target.type = "date")}
+                        onBlur={(e) => (e.target.type = "text")}
+                      />
+                    </div>
+                  </div>
+                </div>
+
                 <div>
                   <button
                     disabled={incompleteForm}

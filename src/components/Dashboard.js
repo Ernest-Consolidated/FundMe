@@ -63,6 +63,14 @@ const Dashboard = () => {
   }, []);
 
   useEffect(() => {
+    if (!walletInfo) return;
+
+    if (!walletInfo[0].data.onboarding) {
+      navigate("/onboarding");
+    }
+  }, [navigate]);
+
+  useEffect(() => {
     if (uid) {
       const unsub = onSnapshot(
         collection(db, "users", uid, "virtualAccounts"),
@@ -107,7 +115,7 @@ const Dashboard = () => {
   const handleCard = async () => {
     setLoading(true);
     const body = {
-      country: walletInfo[0]?.data.contacts.data[0].country,
+      // country: walletInfo[0]?.data.contacts.data[0].country,
       ewallet_contact: walletInfo[0]?.data.contacts.data[0].id,
     };
     const res = await axios.post(CARD_API_URI, body);
@@ -126,16 +134,15 @@ const Dashboard = () => {
   const handleVirtualAccount = async () => {
     setLoading(true);
     const body = {
-      country: walletInfo[0]?.data.contacts.data[0].country,
       ewallet: walletId,
     };
 
     const res = await axios.post(ACCOUNT_API_URI, body);
+    console.log(res.data);
 
     await addDoc(collection(db, "users", uid, "virtualAccounts"), {
       ...res.data,
     }).then(() => setLoading(false));
-    console.log(res.data);
   };
 
   const handleClick = (e) => {
@@ -160,7 +167,7 @@ const Dashboard = () => {
     return <Spinner />;
   }
 
-  console.log(accountBalance);
+  // console.log(accountBalance && accountBalance.length);
   const newArr = accountBalance
     ?.filter((acc) => acc.balance !== "SGD")
     .map((acc) => acc.balance);
@@ -171,6 +178,20 @@ const Dashboard = () => {
       <div className="items-start justify-start flex py-3">
         <h3>{`Welcome, ${walletInfo[0]?.data.first_name} ${walletInfo[0]?.data.last_name}`}</h3>
       </div>
+      {cardDetails && cardDetails[0]?.data.status === "INA" && (
+        <div className="my-2">
+          <button
+            onClick={(e) => {
+              e.preventDefault();
+              handleCard();
+              console.log("sent");
+            }}
+            className="block max-w-sm mt-3 lg:mt-0 py-2 text-xs items-center justify-start bg-[#013f28] cursor-pointer rounded-md"
+          >
+            <p className="mx-3 text-white">Activate Card</p>
+          </button>
+        </div>
+      )}
       <div className="flex flex-col-reverse lg:flex-row  justify-between">
         <div className="flex flex-col justify-around my-6 lg:my-0 lg:space-y-0">
           <div className="flex flex-col items-start justify-start space-y-1 lg:space-y-0">
@@ -194,7 +215,7 @@ const Dashboard = () => {
                   handleVirtualAccount();
                   console.log("went");
                 }}
-                className="block max-w-sm mt-3 lg:mt-0 py-2 text-xs items-center justify-start bg-[#013f28] rounded-md"
+                className="block max-w-sm mt-3 lg:mt-0 py-2 text-xs items-center justify-start bg-[#013f28] cursor-pointer rounded-md"
               >
                 <p className="mx-3 text-white">Create USD account</p>
               </button>
@@ -215,8 +236,7 @@ const Dashboard = () => {
                   handleCard();
                   console.log("sent");
                 }}
-                disabled
-                className="block max-w-sm mt-3 lg:mt-0 py-2 text-xs items-center justify-start bg-gray-400 cursor-not-allowed rounded-md"
+                className="block max-w-sm mt-3 lg:mt-0 py-2 text-xs items-center justify-start bg-[#013f28] cursor-pointer rounded-md"
               >
                 <p className="mx-3 text-white">Create USD Card</p>
               </button>
@@ -227,10 +247,20 @@ const Dashboard = () => {
           <Card
             fName={walletInfo[0]?.data.first_name}
             lName={walletInfo[0]?.data.last_name}
+            details={cardDetails && cardDetails}
           />
         </div>
       </div>
-      <Stats accBalance={accountBalance} />
+      {accountBalance <= 0 ? (
+        <div className="mt-8">
+          <h3 className="text-lg font-medium leading-6 text-gray-900">
+            No available balance
+          </h3>
+        </div>
+      ) : (
+        <Stats accBalance={accountBalance} />
+      )}
+
       <div className="flex flex-col lg:flex-row items-center justify-center my-5">
         <div
           onClick={handleClick}

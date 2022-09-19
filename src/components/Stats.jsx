@@ -29,8 +29,7 @@ export default function Stats({ accBalance }) {
               </dd>
             </div>
           ))}
-
-        {!accBalance && (
+        {/* 
           <>
             <div className="overflow-hidden rounded-lg bg-[#013f28] px-4 py-5 shadow-md sm:p-6">
               <dt className="truncate text-sm font-medium text-gray-400">
@@ -58,8 +57,7 @@ export default function Stats({ accBalance }) {
                 €0.00
               </dd>
             </div>
-          </>
-        )}
+          </> */}
       </dl>
     </div>
   );
