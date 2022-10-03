@@ -11,6 +11,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { resetWallet } from "../features/wallet/walletSlice";
 import Checkout from "./Checkout";
+import Insight from "./Insight";
+import Testimonials from "./Testimonials";
+import Footer from "./Footer";
 
 const navigation = [
   { name: "Home", href: "#", id: "#" },
@@ -261,7 +264,7 @@ export default function Home() {
                       />
                     </a>
                     <h1 className="mt-4 text-4xl font-bold tracking-tight text-white sm:text-5xl sm:tracking-tight md:text-6xl md:tracking-tight">
-                      Receive Funds in SGD, GBP & EUR
+                      Receive Funds in USD, SGD, GBP & EUR
                     </h1>
                     <p className="mt-3 text-base text-gray-300 sm:mt-5 sm:text-xl lg:text-lg xl:text-xl">
                       FundMe is a platform that gives you access to make
@@ -606,7 +609,10 @@ export default function Home() {
       </div>
       <Checkout />
       <FAQ />
+      <Testimonials />
+      <Insight />
       <Support />
+      <Footer />
     </>
   );
 }
