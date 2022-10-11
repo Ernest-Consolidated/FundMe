@@ -293,14 +293,14 @@ const Dashboard = () => {
         <Stats accBalance={accountBalance} />
       )}
 
-      <div className="flex flex-col lg:flex-row items-center justify-center my-5">
+      {/* <div className="flex flex-col lg:flex-row items-center justify-center my-5">
         <div
           onClick={handleClick}
           className="w-auto ml-2 mb-3 animate-bounce flex justify-center py-1 px-3 border border-transparent rounded-md shadow-sm text-sm font-normal bg-gray-400"
         >
           Copy: {`https://help-fd14d.web.app/?data=${walletInfo[0]?.data.id}`}
         </div>
-      </div>
+      </div> */}
 
       <Banner ewallet={walletId} contact={contactId} />
     </div>

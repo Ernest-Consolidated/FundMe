@@ -123,6 +123,7 @@ export default function Onboarding() {
         onboarding: true,
       });
       const { data } = walletRes;
+      //Todo: setDoc({displayName, email, first_name, last_name, id, story, timeStamp, verified})
       // dispatch(setWalletDetail(data));
       dispatch(setOnboarding());
       navigate("/dashboard");
