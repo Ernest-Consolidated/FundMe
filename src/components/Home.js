@@ -40,6 +40,8 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
+const baseUrl = "https://fundme-backend-server.onrender.com";
+
 export default function Home() {
   const [query, setQuery] = useState("");
   const [selectedPerson, setSelectedPerson] = useState();
@@ -89,7 +91,7 @@ export default function Home() {
 
     setProcessing(true);
 
-    const API_URI = "https://help-fd14d.uc.r.appspot.com/api/donate";
+    const API_URI = baseUrl + "/api/donate";
     const body = {
       name: cardName,
       userWalletId: walletId,

@@ -13,6 +13,8 @@ import {
 } from "../../features/auth/authSlice";
 import { db } from "../../firebase";
 
+const baseUrl = "https://fundme-backend-server.onrender.com";
+
 export default function Onboarding() {
   const { user, uid, isError, message, onBoarding } = useSelector(
     (state) => state.auth
@@ -87,7 +89,7 @@ export default function Onboarding() {
 
     console.log(`${month}/${day}/${year}`);
 
-    const WALLET_API_URI = "https://help-fd14d.uc.r.appspot.com/api/wallet";
+    const WALLET_API_URI = baseUrl + "/api/wallet";
 
     const body = {
       first_name: firstName,
@@ -123,6 +125,7 @@ export default function Onboarding() {
         onboarding: true,
       });
       const { data } = walletRes;
+
       //Todo: setDoc({displayName, email, first_name, last_name, id, story, timeStamp, verified})
       // dispatch(setWalletDetail(data));
       dispatch(setOnboarding());

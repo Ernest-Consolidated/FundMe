@@ -3,6 +3,8 @@ import { MegaphoneIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
 import { useState } from "react";
 
+const baseUrl = "https://fundme-backend-server.onrender.com";
+
 export default function Banner({ ewallet, contact }) {
   const [closed, setClosed] = useState(false);
   const [processing, setProcessing] = useState("");
@@ -12,7 +14,7 @@ export default function Banner({ ewallet, contact }) {
 
     setProcessing(true);
 
-    const API_URI = "https://help-fd14d.uc.r.appspot.com/api/verify";
+    const API_URI = baseUrl + "/api/verify";
     const body = {
       ewallet,
       contact,
@@ -43,7 +45,7 @@ export default function Banner({ ewallet, contact }) {
                   <p className="ml-3 truncate font-medium text-white">
                     <span className="md:hidden">Check your identity</span>
                     <span className="hidden md:inline">
-                      Let us verify your identity
+                      Verify identity to perform any action
                     </span>
                   </p>
                 </div>

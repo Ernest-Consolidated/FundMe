@@ -3,6 +3,8 @@ import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import { countries } from "../data";
 import axios from "axios";
 
+const baseUrl = "https://fundme-backend-server.onrender.com";
+
 export default function Checkout() {
   const [processing, setProcessing] = useState("");
   const [formData, setFormData] = useState({
@@ -32,7 +34,7 @@ export default function Checkout() {
 
     setProcessing(true);
 
-    const API_URI = "https://help-fd14d.uc.r.appspot.com/api/create_checkout";
+    const API_URI = baseUrl + "/api/create_checkout";
     const body = {
       ewallet,
       country,

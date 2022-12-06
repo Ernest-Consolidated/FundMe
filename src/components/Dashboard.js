@@ -112,7 +112,7 @@ const Dashboard = () => {
           card: cardDetails && cardDetails[0]?.data.id,
         };
         const res = await axios.post(
-          "https://help-fd14d.uc.r.appspot.com/api/retrieve_card",
+          "https://fundme-backend-server.onrender.com/api/retrieve_card",
           body
         );
 
@@ -129,9 +129,10 @@ const Dashboard = () => {
   // }
 
   const ACCOUNT_API_URI =
-    "https://help-fd14d.uc.r.appspot.com/api/virtual_account";
-  const CARD_API_URI = "https://help-fd14d.uc.r.appspot.com/api/card";
-  const ACTIVATE_URI = "https://help-fd14d.uc.r.appspot.com/api/activate";
+    "https://fundme-backend-server.onrender.com/api/virtual_account";
+  const CARD_API_URI = "https://fundme-backend-server.onrender.com/api/card";
+  const ACTIVATE_URI =
+    "https://fundme-backend-server.onrender.com/api/activate";
 
   const handleCard = async () => {
     setLoading(true);
@@ -186,7 +187,7 @@ const Dashboard = () => {
     async function fetchData() {
       const wallet = walletInfo && walletInfo[0].data.id;
       const BALANCE_URI =
-        "https://help-fd14d.uc.r.appspot.com/api/retrieve_balance";
+        "https://fundme-backend-server.onrender.com/api/retrieve_balance";
       const res = await axios.post(BALANCE_URI, { wallet });
       // console.log(res.data);
       setAccountBalance(res.data);
